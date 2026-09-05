@@ -1,3 +1,5 @@
+![Games You Can Read - free browser games with a real idea behind them, and where those ideas come from](banner.png)
+
 # Games You Can Read
 
 Two researched field notes on free browser games — the ones with an actual idea
