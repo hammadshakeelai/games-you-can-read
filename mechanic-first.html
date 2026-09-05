@@ -364,6 +364,27 @@ h1{
 .rk-d{margin:0;font-size:.99rem;line-height:1.55}
 .rk-d code{font-family:var(--f-mono);font-size:.85em;background:var(--sunk);padding:.05em .25em;border-radius:2px}
 
+/* game captures */
+.thumb,.nocap{display:block;width:100%;height:auto;aspect-ratio:3/2;border-radius:3px;margin:0 0 .7rem}
+.thumb{object-fit:cover;border:1px solid var(--rule-firm);background:var(--sunk)}
+.nocap{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  border:1px dashed var(--rule-firm);background:var(--sunk);
+  font-family:var(--f-mono);font-size:.62rem;line-height:1.6;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--warn);padding:.7rem;
+}
+
+.rank li{grid-template-columns:2.2rem minmax(0,1fr) 13rem}
+.rk-thumb{
+  grid-column:3;grid-row:1/4;align-self:start;
+  display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;
+  border-radius:3px;border:1px solid var(--rule-firm);background:var(--sunk);
+}
+@media (max-width:52rem){
+  .rank li{grid-template-columns:2.2rem minmax(0,1fr)}
+  .rk-thumb{grid-column:2;grid-row:auto;max-width:16rem}
+}
+
 @media (max-width:44rem){
   .entry,.lessons li,.rules li{grid-template-columns:1fr;gap:.4rem}
   .rank li{grid-template-columns:1.7rem minmax(0,1fr);gap:.4rem .7rem}
@@ -489,72 +510,96 @@ h1{
   <ol class="rank">
 
     <li>
+      <img class="rk-thumb" src="shots/ps-sokoban-cubed.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Sokoban[Sokoban[Sokoban]] running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=efe47d5471e9ef533a664a66c31eb66d">Sokoban[Sokoban[Sokoban]]</a></span><span class="rk-a">increpare &middot; 3 rules</span></div>
       <div class="rk-r"><code>[ &gt; Player | stationary Crate | no obstacle ] [stationary player2] -&gt; [ | Player | Crate ] [&gt; player2]</code></div>
       <p class="rk-d">Not spatial recursion &mdash; <em>nested move functions</em>. Succeeding at a push on the first board is what supplies the input to the second board, and a push there supplies the third. You are not playing three Sokobans; you are playing one whose controller is another one. Three rules, and the second and third are the same rule shifted down a level.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-collapsable.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Collapsable Sokoban running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=fd4e3445b63068676f72">Collapsable Sokoban</a></span><span class="rk-a">Franklin P. Dyer &middot; 2 rules</span></div>
       <div class="rk-r"><code>[Wall|...|Player] -&gt; [&gt; Wall|...|Player]</code></div>
       <p class="rk-d">Standard Sokoban, plus that. Every wall in line with you advances one square toward you, every turn. The room closes as you solve it, so position stops being free and every move spends space you cannot get back. The best ratio in the gallery: one added line, a completely different game.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-modality.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Modality running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6888061">Modality</a></span><span class="rk-a">Sean Barrett &middot; 4 rules</span></div>
       <div class="rk-r"><code>[ &gt; Player Black | Crate Black ] -&gt; [ &gt; Player Black | &gt; Crate Black ]<br>[ &gt; Player White | Black ] -&gt; CANCEL</code></div>
       <p class="rk-d">You have a colour. You can push only crates of your own colour, and you cannot step onto the opposite colour at all. Two constraints written as two cancellations, and the board splits into a pair of interleaved mazes you have to solve alternately.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-heroes.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Heroes of Sokoban running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6860122">Heroes of Sokoban</a></span><span class="rk-a">Jonah Ostroff &middot; 22 rules</span></div>
       <div class="rk-r"><code>[ &gt; Fighter | Moveable ] -&gt; [ &gt; Fighter | &gt; Moveable ]<br>[ &lt; Thief | Moveable ] -&gt; [ &lt; Thief | &lt; Moveable ]<br>[ &gt; Wizard ] -&gt; [ Wizard &gt; Temp ]</code></div>
       <p class="rk-d">Three verbs on one grid, and you switch between them. The Fighter <em>pushes</em>, and shoves whole chains. The Thief <em>pulls</em> &mdash; moving away drags the block after her. The Wizard <em>swaps</em> places with whatever it faces. The most rules on this list and it earns them: the only entry whose difficulty comes from verbs interacting rather than from one twist, and the only one that spawned two sequels.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-watch-your-step.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Watch Your Step running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=0e692c47ab0b18099c2485d644590b4e">Watch Your Step</a></span><span class="rk-a">Aaron Steed &middot; 11 rules</span></div>
       <div class="rk-r"><code>[ &gt; Crate0 | Crate0 ] -&gt; [ | Crate1 ]<br>late [Floor4 no Object] -&gt; [no Floor Crate0]</code></div>
       <p class="rk-d">Two ideas stacked, which makes it the densest thing here. Crates merge on collision the way 2048 tiles do &mdash; 0 into 0 makes 1, up to 4, and reaching a 4 wins. Meanwhile the floor <em>ages under your feet</em>, and floor that has aged four steps sprouts a fresh crate. The board you cross is the board that refills behind you.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-love-and-pieces.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Love and Pieces running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6846450">Love and Pieces</a></span><span class="rk-a">lexaloffle &middot; 2 rules</span></div>
       <div class="rk-r"><code>late [ Player | GrayBlock ] -&gt; [ Player | Player ]</code></div>
       <p class="rk-d">Anything grey you touch <em>becomes you</em>, and the win condition is that no grey is left. So the puzzle is spreading, every copy takes your input at once, and succeeding makes you progressively harder to steer. Written by Joseph White, who went on to build PICO-8.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-art-of-cloning.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: the art of cloning running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=45f13378f02acf2d2583d91fac32e729">the art of cloning</a></span><span class="rk-a">Rosden Shadow &middot; 6 rules</span></div>
       <div class="rk-r"><code>[ &gt; Player | Crate ] -&gt; [ player | &gt; Crate ]</code></div>
       <p class="rk-d">Look closely at the right-hand side: the <code>&gt;</code> in front of <em>Player</em> is gone. You push the crate and you stay exactly where you are. Sokoban's core assumption is that pushing costs you your position &mdash; delete it and every solution you know stops working.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-lines-crossed.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Some lines were meant to be crossed running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=33eee323d8edfbdc20ee2d584cee2b4b">Some lines were meant to be crossed</a></span><span class="rk-a">Frpzzd &middot; 7 rules</span></div>
       <div class="rk-r"><code>LATE [player no start] -&gt; [player tail]<br>[&gt; player|tail] -&gt; cancel</code></div>
       <p class="rk-d">Your own trail hardens into wall behind you, and you win by clearing every path <em>and</em> returning to where you started. A Hamiltonian circuit expressed in two rules, with the elegant consequence that the puzzle tightens in exact proportion to how much of it you have solved.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-stairways.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Stairways running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=21e3784aaa7675dc4b08">Stairways</a></span><span class="rk-a">Franklin P. Dyer &middot; 6 rules</span></div>
       <div class="rk-r"><code>[&gt; Player|Block No Stairs] -&gt; [&gt; Player|&gt; Block No Stairs]<br>[&gt; Player|Block Stairs] -&gt; [Player|&gt; Block Stairs]</code></div>
       <p class="rk-d">The same push, conditioned on the tile it happens on: everywhere else you travel with the block, on stairs you stay behind. One rule written twice with a single term changed &mdash; the tidiest demonstration in the gallery of how PuzzleScript wants you to think.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-ebony-ivory.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Ebony &amp; Ivory running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6879013">Ebony &amp; Ivory</a></span><span class="rk-a">Guilherme T&ouml;ws &middot; 9 rules</span></div>
       <div class="rk-r"><code>[ &gt; Black | White ] -&gt; [ White | Black ]</code></div>
       <p class="rk-d">Pushing something into its opposite does not move it &mdash; the two <em>trade places</em>. Displacement stops being transport and becomes exchange, so the board's contents are conserved and you are only ever rearranging what is already there.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-mazezam.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: MazezaM running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=7718522">MazezaM</a></span><span class="rk-a">Malcolm Tyrrell &middot; 8 rules</span></div>
       <div class="rk-r"><code>Horizontal [ &gt; Player | Crate | ... | No Object | WallLike ] -&gt; [ &gt; Player | &gt; Crate | ... | | WallLike ]</code></div>
       <p class="rk-d">Moving sideways shoves an entire row along until it finds a gap. You are not pushing a block, you are operating a row &mdash; so a level reads less as a maze than as a bank of sliding registers you have to align.</p>
     </li>
 
     <li>
+      <img class="rk-thumb" src="shots/ps-lime-rick.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Lime Rick running in the PuzzleScript player">
+      
       <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6841210">Lime Rick</a></span><span class="rk-a">Tommi Tuovinen &middot; 11 rules</span></div>
       <div class="rk-r"><code>UP [ UP PlayerHead3 | No Obstacle ] -&gt; [ PlayerBodyV | PlayerHead4 ]</code></div>
       <p class="rk-d">A snake that climbs. Your body is a fixed stack of segments, and moving up spends one &mdash; so the creature's own length is the resource, and the level is a question about how much of yourself you can afford to leave behind on the way.</p>
@@ -696,7 +741,8 @@ h1{
     <p>The Innovation rankings come from js13kGames' own criteria-rankings posts for 2023, 2024 and 2025, read directly. The 2023 post lists ranks without numeric scores, so none are shown for that year rather than being carried over from elsewhere.</p>
     <p>All fifteen ranked game links were opened and confirmed to resolve to the right entry page. The PuzzleScript links were taken from increpare's own catalogue page, and each is a <code>puzzlescript.net/play.html?p=</code> gist id.</p>
     <p>The PuzzleScript ranking is built from source, not from titles: I fetched the gist behind all 114 games in the official gallery and read each RULES section, then ranked on how much each ruleset changes about Sokoban per rule spent. Rule counts are counted from those files. Three of the 114 stored their script in a form my parser could not read and were left out.</p>
-    <p>That is still a reading, not a playthrough &mdash; of the games ranked here I have only loaded <em>Snortal</em> in a browser. Quoted rules are verbatim from the gists, so you can check any claim against the editor in one click. The js13k Innovation entries carry no mechanic description at all, deliberately: there I have the field&rsquo;s ranking, not a session with each game.</p>
+    <p>The thumbnail beside each ranked game is a screenshot of that game running in the PuzzleScript player, captured on 6 September 2026 &mdash; the board you see is the one the ruleset above it produces. Games belong to their authors.</p>
+    <p>That is still a reading, not a playthrough &mdash; the captures mean every ranked game has now been loaded and started, but I have not solved them. Quoted rules are verbatim from the gists, so you can check any claim against the editor in one click. The js13k Innovation entries carry no mechanic description at all, deliberately: there I have the field&rsquo;s ranking, not a session with each game.</p>
     <p>TIC-80's licence and hardware spec are from its repository. PICO-8 is flagged closed because it is a paid product; only its exported cartridges are free to play.</p>
   </footer>
 

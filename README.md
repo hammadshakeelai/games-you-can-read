@@ -42,6 +42,24 @@ were opened and confirmed running. The pages say so where it matters, and the
 js13k entries deliberately carry no mechanic descriptions — that section reports
 the competition's own peer ranking, not a session with each game.
 
+## The screenshots
+
+Every game entry carries a thumbnail of that game actually running. They are captured
+with headless Chrome, loading each game and playing far enough to reach a
+representative frame, then downscaled to 480x320 WebP - 36 images, about 370 KB in
+total, all lazy-loaded with explicit dimensions so nothing reflows.
+
+Three entries show a labelled "no capture" tile instead, because the honest answer is
+that no frame exists: the **wipEout rewrite** ships no assets, **Slow Roads** refuses
+to run without a real GPU, and **Hanab Live** needs a sign-in before it shows a game.
+
+Producing the captures also caught two dead links, now fixed: Untrusted had moved to
+`alexnisnevich.github.io`, and Hextris's own declared homepage `hextris.io` has lapsed
+(the live game is at `hextris.github.io`).
+
+Games belong to their authors; the screenshots are here so you can see what you are
+clicking into.
+
 ## Running it
 
 Plain HTML. No build step, no dependencies, no JavaScript.

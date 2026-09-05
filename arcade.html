@@ -264,6 +264,16 @@ h1{
 .method p{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-soft);max-width:68ch}
 .method code{font-family:var(--f-mono);font-size:.82em;background:var(--sunk);padding:.08em .3em;border-radius:2px;color:var(--ink)}
 
+/* game captures */
+.thumb,.nocap{display:block;width:100%;height:auto;aspect-ratio:3/2;border-radius:3px;margin:0 0 .7rem}
+.thumb{object-fit:cover;border:1px solid var(--rule-firm);background:var(--sunk)}
+.nocap{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  border:1px dashed var(--rule-firm);background:var(--sunk);
+  font-family:var(--f-mono);font-size:.62rem;line-height:1.6;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--warn);padding:.7rem;
+}
+
 @media (max-width:44rem){
   .entry,.lessons li{grid-template-columns:1fr;gap:.55rem}
   h1{text-shadow:.045em .04em 0 var(--ghost)}
@@ -305,7 +315,8 @@ h1{
 
       <li class="entry">
         <div>
-          <h3><a href="https://alex.nisnevich.com/untrusted/">Untrusted</a></h3>
+          <img class="thumb" src="shots/untrusted.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Untrusted, chapter 1">
+          <h3><a href="https://alexnisnevich.github.io/untrusted/">Untrusted</a></h3>
           <p class="spec"><span class="chip chip-warn">CC-BY-NC-SA 3.0</span></p>
           <p class="tech">2D grid via rot.js &middot; negligible</p>
         </div>
@@ -317,6 +328,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/elevatorsaga.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Elevator Saga running in a browser">
           <h3><a href="https://play.elevatorsaga.com/">Elevator Saga</a></h3>
           <p class="spec"><span class="chip chip-ok">MIT</span></p>
           <p class="tech">DOM + a code editor &middot; negligible</p>
@@ -329,6 +341,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/bitburner.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Bitburner running in a browser">
           <h3><a href="https://bitburner-official.github.io/">Bitburner</a></h3>
           <p class="spec"><span class="chip chip-warn">Apache-2.0</span><span class="chip chip-warn">+ Commons Clause</span></p>
           <p class="tech">In-tab JS runtime &middot; light to start, heavy once your scripts are</p>
@@ -352,6 +365,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/sandspiel.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Sandspiel running in a browser">
           <h3><a href="https://sandspiel.club/">Sandspiel</a></h3>
           <p class="spec"><span class="chip chip-ok">MIT</span></p>
           <p class="tech">Rust &rarr; WASM + WebGL &middot; moderate GPU</p>
@@ -364,6 +378,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/orbfarm.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: orb.farm running in a browser">
           <h3><a href="https://orb.farm/">orb.farm</a></h3>
           <p class="spec"><span class="chip chip-ok">MIT</span></p>
           <p class="tech">Same WASM automata core &middot; moderate GPU</p>
@@ -376,6 +391,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/micropolisjs.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: micropolisJS with a generated map">
           <h3><a href="https://www.graememcc.co.uk/micropolisJS/">micropolisJS</a></h3>
           <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
           <p class="tech">2D canvas &middot; very light</p>
@@ -399,6 +415,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/hexgl.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: HexGL mid-race">
           <h3><a href="https://hexgl.bkcore.com/play/">HexGL</a></h3>
           <p class="spec"><span class="chip chip-ok">MIT</span></p>
           <p class="tech">Three.js / WebGL &middot; real GPU load, quality selectable</p>
@@ -412,6 +429,7 @@ h1{
 
       <li class="entry">
         <div>
+          <div class="nocap" role="img" aria-label="no capture - the repo ships no assets">no capture &mdash; the repo ships no assets</div>
           <h3><a href="https://phoboslab.org/log/2023/08/rewriting-wipeout">wipEout rewrite</a></h3>
           <p class="spec"><span class="chip chip-warn">No licence file</span></p>
           <p class="tech">C &rarr; WASM + WebGL &middot; the 1995 PSX game at modern frame rates</p>
@@ -425,6 +443,7 @@ h1{
 
       <li class="entry">
         <div>
+          <div class="nocap" role="img" aria-label="no capture - refuses to run without a real GPU">no capture &mdash; refuses to run without a real GPU</div>
           <h3><a href="https://slowroads.io/">Slow Roads</a></h3>
           <p class="spec"><span class="chip chip-closed">Closed source</span></p>
           <p class="tech">Three.js &middot; light for what it renders</p>
@@ -447,6 +466,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/shapez.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: shapez.io running in a browser">
           <h3><a href="https://shapez.io/">shapez.io</a></h3>
           <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
           <p class="tech">2D canvas &middot; very light for a factory game</p>
@@ -460,6 +480,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/evolve.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Evolve running in a browser">
           <h3><a href="https://pmotschmann.github.io/Evolve/">Evolve</a></h3>
           <p class="spec"><span class="chip chip-ok">MPL-2.0</span></p>
           <p class="tech">DOM only &middot; negligible</p>
@@ -472,6 +493,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/antimatter.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Antimatter Dimensions running in a browser">
           <h3><a href="https://ivark.github.io/">Antimatter Dimensions</a></h3>
           <p class="spec"><span class="chip chip-warn">No licence stated</span></p>
           <p class="tech">DOM only &middot; negligible</p>
@@ -495,6 +517,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/tatham-loopy.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Loopy, one of the 46 puzzles, mid-solve">
           <h3><a href="https://www.chiark.greenend.org.uk/~sgtatham/puzzles/">Simon Tatham's Puzzle Collection</a></h3>
           <p class="spec"><span class="chip chip-ok">MIT</span></p>
           <p class="tech">46 puzzles &middot; JS + WASM builds &middot; genuinely tiny</p>
@@ -507,7 +530,8 @@ h1{
 
       <li class="entry">
         <div>
-          <h3><a href="https://hextris.io/">Hextris</a></h3>
+          <img class="thumb" src="shots/hextris.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Hextris running in a browser">
+          <h3><a href="https://hextris.github.io/">Hextris</a></h3>
           <p class="spec"><span class="chip chip-ok">GPL-3.0-or-later</span></p>
           <p class="tech">2D canvas &middot; negligible</p>
         </div>
@@ -519,6 +543,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/slaytheweb.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Slay the Web running in a browser">
           <h3><a href="https://www.slaytheweb.cards/">Slay the Web</a></h3>
           <p class="spec"><span class="chip chip-ok">AGPL-3.0</span></p>
           <p class="tech">Web components &middot; very light</p>
@@ -541,6 +566,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/suroi.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Suroi running in a browser">
           <h3><a href="https://suroi.io/">Suroi</a></h3>
           <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
           <p class="tech">TypeScript &middot; Pixi.js &middot; uWebSockets &middot; light client</p>
@@ -553,6 +579,7 @@ h1{
 
       <li class="entry">
         <div>
+          <div class="nocap" role="img" aria-label="no capture - sign-in required to see a game">no capture &mdash; sign-in required to see a game</div>
           <h3><a href="https://hanab.live/">Hanab Live</a></h3>
           <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
           <p class="tech">Text and card sprites &middot; negligible</p>
@@ -565,6 +592,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/lichess.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: a live game on Lichess TV">
           <h3><a href="https://lichess.org/">Lichess</a></h3>
           <p class="spec"><span class="chip chip-ok">AGPL-3.0-or-later</span></p>
           <p class="tech">Scala + TypeScript &middot; negligible client</p>
@@ -587,6 +615,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/js13k-q1k3.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Q1K3 in play - a first-person shooter in 13 KB">
           <h3><a href="https://js13kgames.com/entries/q1k3">Q1K3</a></h3>
           <p class="spec"><span class="chip chip-ok">Source published</span></p>
           <p class="tech">13 KB zipped &middot; in-browser 3D</p>
@@ -599,6 +628,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/js13k-space-huggers.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Space Huggers in play, level 1">
           <h3><a href="https://js13kgames.com/entries/space-huggers">Space Huggers</a></h3>
           <p class="spec"><span class="chip chip-ok">Source published</span></p>
           <p class="tech">13 KB zipped &middot; 2D canvas</p>
@@ -611,6 +641,7 @@ h1{
 
       <li class="entry">
         <div>
+          <img class="thumb" src="shots/js13k-galaxy-rider.webp" width="480" height="320" loading="lazy" decoding="async" alt="Screenshot: Galaxy Rider's level select">
           <h3><a href="https://js13kgames.com/entries/galaxy-rider">Galaxy Rider</a></h3>
           <p class="spec"><span class="chip chip-ok">Source published</span></p>
           <p class="tech">13 KB zipped &middot; 2D physics</p>
@@ -670,7 +701,8 @@ h1{
   <footer class="method">
     <h2>How this was checked</h2>
     <p>Every licence above was read off the project's own repository or site rather than a directory listing &mdash; which is why several rows carry amber badges that the write-ups elsewhere don't mention. Play URLs were taken from each project's own README or homepage.</p>
-    <p>Two entries were opened and confirmed running during research: <code>hexgl.bkcore.com/play</code> reached its quality-select menu, and <code>sandspiel.club</code> loaded with a live simulation and an on-screen frame counter. The rest are described from source and documentation, not from a play session &mdash; so read the grey weight line as "what this is built from", which is checkable, rather than as a benchmark, which isn't.</p>
+    <p>Every thumbnail is a screenshot of the linked game, captured on 6 September 2026 by loading it in a headless Chrome and playing far enough to reach a representative frame &mdash; so what you see is what the game gives you, not promotional art. The games belong to their authors; the captures are here to show what you are clicking into. Where an entry has a <em>no capture</em> tile instead of a picture, the reason is stated on the tile: that is a result, not a missing image.</p>
+    <p>Producing those captures also confirmed that eighteen of these entries load and run, and turned up two dead links that are now fixed: Untrusted had moved to <code>alexnisnevich.github.io</code>, and Hextris's own declared homepage, <code>hextris.io</code>, has lapsed &mdash; the live game is at <code>hextris.github.io</code>. The grey weight line still describes what each entry is built from, which is checkable, rather than a benchmark, which isn't.</p>
     <p>Antimatter Dimensions is listed with no licence because the repository declares none, not because one was missed. If that changes, the badge is wrong rather than the entry.</p>
   </footer>
 
