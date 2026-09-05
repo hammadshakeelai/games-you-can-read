@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="21 free browser games with a genuinely good idea, with every licence read off the repository and the caveats flagged.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Source Available Arcade">
+<meta property="og:description" content="21 free browser games with a genuinely good idea, with every licence read off the repository and the caveats flagged.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕹️</text></svg>">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Source Available Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap">
+
+<style>
+:root{
+  --paper:#E9E6DF;
+  --surface:#F3F1EC;
+  --sunk:#DFDBD2;
+  --ink:#1A1D22;
+  --ink-soft:#565B63;
+  --rule:#C9C5BC;
+  --rule-firm:#A9A499;
+  --pink:#C11071;
+  --blue:#0068B0;
+  --ok:#077038;
+  --warn:#8A5600;
+  --closed:#9B2C2C;
+  --ghost:rgba(193,16,113,.20);
+  --chip-ok-bg:rgba(7,112,56,.10);
+  --chip-warn-bg:rgba(138,86,0,.11);
+  --chip-closed-bg:rgba(155,44,44,.10);
+
+  --f-display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#101419;
+    --surface:#171C23;
+    --sunk:#0B0E12;
+    --ink:#E8E6E1;
+    --ink-soft:#9AA1AB;
+    --rule:#2A313A;
+    --rule-firm:#3D4650;
+    --pink:#FF5BB8;
+    --blue:#55AEF0;
+    --ok:#35C07C;
+    --warn:#E0A63A;
+    --closed:#F07070;
+    --ghost:rgba(255,91,184,.26);
+    --chip-ok-bg:rgba(53,192,124,.12);
+    --chip-warn-bg:rgba(224,166,58,.12);
+    --chip-closed-bg:rgba(240,112,112,.12);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101419;
+  --surface:#171C23;
+  --sunk:#0B0E12;
+  --ink:#E8E6E1;
+  --ink-soft:#9AA1AB;
+  --rule:#2A313A;
+  --rule-firm:#3D4650;
+  --pink:#FF5BB8;
+  --blue:#55AEF0;
+  --ok:#35C07C;
+  --warn:#E0A63A;
+  --closed:#F07070;
+  --ghost:rgba(255,91,184,.26);
+  --chip-ok-bg:rgba(53,192,124,.12);
+  --chip-warn-bg:rgba(224,166,58,.12);
+  --chip-closed-bg:rgba(240,112,112,.12);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{color:var(--pink)}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:2px;border-radius:2px}
+
+.page{
+  max-width:60rem;
+  margin:0 auto;
+  padding:clamp(1.75rem,4vw,4rem) clamp(1.1rem,4vw,3rem) 4rem;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(2.5rem,5vw,4rem);
+}
+
+.masthead{display:flex;flex-direction:column;gap:1rem}
+.eyebrow{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--pink);
+  margin:0;
+}
+h1{
+  font-family:var(--f-display);
+  font-weight:800;
+  font-size:clamp(2.5rem,8.5vw,4.75rem);
+  line-height:.94;
+  letter-spacing:-.025em;
+  margin:0;
+  text-wrap:balance;
+  text-shadow:.055em .045em 0 var(--ghost);
+}
+.standfirst{
+  margin:0;
+  max-width:40ch;
+  font-size:1.16rem;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.standfirst strong{color:var(--ink);font-weight:500}
+
+.legend{
+  border-top:2px solid var(--ink);
+  border-bottom:1px solid var(--rule);
+  padding:1.1rem 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:1.1rem 2rem;
+}
+.legend h2{
+  grid-column:1/-1;
+  margin:0;
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.legend p{margin:0;font-size:.94rem;line-height:1.5;color:var(--ink-soft)}
+.legend p b{display:block;color:var(--ink);font-family:var(--f-display);font-weight:700;font-size:.95rem;letter-spacing:.005em}
+
+.cat{display:flex;flex-direction:column;gap:1.4rem}
+.cat-head{display:flex;flex-direction:column;gap:.4rem;border-left:3px solid var(--pink);padding-left:.9rem}
+.cat-head h2{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:clamp(1.4rem,3.4vw,1.9rem);
+  letter-spacing:-.015em;
+  line-height:1.1;
+  margin:0;
+  text-wrap:balance;
+}
+.cat-note{margin:0;color:var(--ink-soft);font-size:1rem;max-width:60ch}
+
+.entries{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.entry{
+  display:grid;
+  grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+  gap:.5rem 2rem;
+  padding:1.15rem 0;
+  border-top:1px solid var(--rule);
+}
+.entry:last-child{border-bottom:1px solid var(--rule)}
+.entry h3{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:1.1rem;
+  letter-spacing:-.01em;
+  margin:0 0 .45rem;
+  line-height:1.25;
+}
+.entry h3 a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--pink);padding-bottom:1px}
+.entry h3 a:hover{color:var(--pink)}
+.spec{margin:0;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.chip{
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:.2rem .42rem;
+  border-radius:2px;
+  white-space:nowrap;
+}
+.chip-ok{color:var(--ok);background:var(--chip-ok-bg);border:1px solid var(--ok)}
+.chip-warn{color:var(--warn);background:var(--chip-warn-bg);border:1px solid var(--warn)}
+.chip-closed{color:var(--closed);background:var(--chip-closed-bg);border:1px solid var(--closed)}
+.tech{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  color:var(--ink-soft);
+  margin:.45rem 0 0;
+  line-height:1.45;
+}
+.idea{margin:0}
+.idea em{font-style:italic;color:var(--ink)}
+.mono-in{font-family:var(--f-mono);font-size:.85em}
+.flag{
+  margin:.5rem 0 0;
+  font-family:var(--f-mono);
+  font-size:.75rem;
+  line-height:1.55;
+  color:var(--warn);
+  border-left:2px solid var(--warn);
+  padding-left:.6rem;
+}
+.flag.bad{color:var(--closed);border-left-color:var(--closed)}
+.src{margin:.5rem 0 0;font-family:var(--f-mono);font-size:.74rem}
+.src a{color:var(--ink-soft)}
+.src a:hover{color:var(--pink)}
+
+.steal{
+  background:var(--surface);
+  border:1px solid var(--rule-firm);
+  padding:clamp(1.4rem,3.5vw,2.2rem);
+  display:flex;
+  flex-direction:column;
+  gap:1.3rem;
+}
+.steal h2{
+  font-family:var(--f-display);
+  font-weight:800;
+  font-size:clamp(1.5rem,4vw,2.1rem);
+  letter-spacing:-.02em;
+  margin:0;
+  line-height:1.05;
+}
+.steal > p{margin:0;color:var(--ink-soft);max-width:60ch}
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.05rem}
+.lessons li{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr);gap:.35rem 1.6rem;padding-top:1.05rem;border-top:1px solid var(--rule)}
+.lessons b{font-family:var(--f-display);font-weight:700;font-size:.98rem;line-height:1.3;color:var(--pink)}
+.lessons p{margin:0;font-size:.99rem;line-height:1.55}
+
+.method{
+  border-top:2px solid var(--ink);
+  padding-top:1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+}
+.method h2{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0;
+}
+.method p{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-soft);max-width:68ch}
+.method code{font-family:var(--f-mono);font-size:.82em;background:var(--sunk);padding:.08em .3em;border-radius:2px;color:var(--ink)}
+
+@media (max-width:44rem){
+  .entry,.lessons li{grid-template-columns:1fr;gap:.55rem}
+  h1{text-shadow:.045em .04em 0 var(--ghost)}
+}
+
+.sitenav{max-width:60rem;margin:0 auto;padding:1.1rem clamp(1.1rem,4vw,3rem) 0;display:flex;flex-wrap:wrap;gap:.35rem 1.3rem;align-items:baseline;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase}
+.sitenav a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+.sitenav a:hover{color:var(--pink);border-bottom-color:var(--pink)}
+.sitenav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--pink)}
+.sitenav .home{font-weight:700;color:var(--pink)}
+.sitenav .sep{color:var(--rule-firm)}
+</style>
+</head>
+<body>
+<nav class="sitenav"><a class="home" href="./">Games You Can Read</a><span class="sep">/</span><a href="arcade.html" aria-current="page">Source Available Arcade</a><a href="mechanic-first.html">Mechanic First</a></nav>
+
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Field notes &middot; 6 September 2026 &middot; 21 entries</p>
+    <h1>Source Available Arcade</h1>
+    <p class="standfirst">Browser games with an <strong>actual idea</strong> behind them, and the source in the open. Every link opened, every licence read off the repo &mdash; including the ones that turned out to be messier than the pitch.</p>
+
+    <div class="legend">
+      <h2>How to read a row</h2>
+      <p><b>The badge is the licence</b> Green is a real open-source licence, read off the repo. Amber means source-available but restricted, or no licence file at all. Red means closed.</p>
+      <p><b>The grey line is the weight</b> What the thing actually is &mdash; 2D canvas, WebGL, WASM, kilobytes. Judge the compute cost from that rather than from an adjective.</p>
+      <p><b>Amber prose is a caveat</b> Something standing between you and playing it: data you must supply, a build that has been left behind, a licence you can't build on.</p>
+    </div>
+  </header>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>The mechanic is the medium</h2>
+      <p class="cat-note">Programming isn't a layer under the game. It is the controller. Three different answers to the same question, and the best argument on this page that a browser is a game platform other platforms can't copy.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://alex.nisnevich.com/untrusted/">Untrusted</a></h3>
+          <p class="spec"><span class="chip chip-warn">CC-BY-NC-SA 3.0</span></p>
+          <p class="tech">2D grid via rot.js &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">Every level ships <em>unbeatable</em>. Beside it sits the JavaScript that generated it, most of it locked, a few functions left editable. You escape by rewriting the level's own source and re-running it. The difficulty curve is the size of the hole they leave you.</p>
+          <p class="src"><a href="https://github.com/AlexNisnevich/untrusted">github.com/AlexNisnevich/untrusted</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://play.elevatorsaga.com/">Elevator Saga</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">DOM + a code editor &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">You write the elevator scheduler. Levels are throughput and wait-time targets, so a naive first-come-first-served controller clears the early floors and then falls apart. It is a scheduling-algorithms course wearing a game's clothes, and it never says so.</p>
+          <p class="src"><a href="https://github.com/magwo/elevatorsaga">github.com/magwo/elevatorsaga</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://bitburner-official.github.io/">Bitburner</a></h3>
+          <p class="spec"><span class="chip chip-warn">Apache-2.0</span><span class="chip chip-warn">+ Commons Clause</span></p>
+          <p class="tech">In-tab JS runtime &middot; light to start, heavy once your scripts are</p>
+        </div>
+        <div>
+          <p class="idea">A cyberpunk incremental where the grind is automated by JavaScript you write against an in-game network API. Progress gates on your code getting better rather than on a timer, so the difficulty curve is your own competence.</p>
+          <p class="flag">Your scripts run in the tab against simulated RAM. A sloppy loop will heat your laptop as reliably as a bad idea in production.</p>
+          <p class="src"><a href="https://github.com/bitburner-official/bitburner-src">github.com/bitburner-official/bitburner-src</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Simulation as a toy</h2>
+      <p class="cat-note">No score, no fail state. The rules are legible enough that watching them run is the whole activity &mdash; the genre the browser has always been best at and gets the least credit for.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://sandspiel.club/">Sandspiel</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">Rust &rarr; WASM + WebGL &middot; moderate GPU</p>
+        </div>
+        <div>
+          <p class="idea">Falling-sand cellular automata with roughly a dozen elements &mdash; sand, water, plant, fungus, fire, acid, cloner, wind. The whole design is that each element's rule fits in a sentence and every interesting behaviour is emergent. The wind is a real fluid simulation layered over the grid.</p>
+          <p class="src"><a href="https://github.com/MaxBittker/sandspiel">github.com/MaxBittker/sandspiel</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://orb.farm/">orb.farm</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">Same WASM automata core &middot; moderate GPU</p>
+        </div>
+        <div>
+          <p class="idea">The same author's sand engine pointed at a sealed aquarium. You stock it and then you are locked out &mdash; the food chain either balances or collapses, and the only input left is patience. A closed system is a stronger idea than a sandbox because it can genuinely go wrong.</p>
+          <p class="src"><a href="https://github.com/MaxBittker/orb.farm">github.com/MaxBittker/orb.farm</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.graememcc.co.uk/micropolisJS/">micropolisJS</a></h3>
+          <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
+          <p class="tech">2D canvas &middot; very light</p>
+        </div>
+        <div>
+          <p class="idea">The original SimCity engine, released as Micropolis, rewritten in JavaScript. Worth reading rather than only playing: the whole city simulation is a handful of tile-grid passes, which is a useful corrective if you assume simulation depth requires simulation complexity.</p>
+          <p class="flag">Dual-licensed &mdash; GPL-3.0 plus the Micropolis Public Name License governing the trademark. Fine to play and study; read the terms before shipping a fork.</p>
+          <p class="src"><a href="https://github.com/graememcc/micropolisJS">github.com/graememcc/micropolisJS</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Cockpit and throttle</h2>
+      <p class="cat-note">The closest matches to the racer in your screenshot. One of these opens and plays right now; the other two each come with a condition attached, and it is worth knowing which is which before you click.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://hexgl.bkcore.com/play/">HexGL</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">Three.js / WebGL &middot; real GPU load, quality selectable</p>
+        </div>
+        <div>
+          <p class="idea">A WipEout and F-Zero tribute that was one of the first genuinely fast 3D games on the open web, and still the best-looking MIT-licensed racer whose source you can read. Opened it while writing this: the menu comes up in a couple of seconds and lets you set quality and platform <em>before</em> it loads a track &mdash; a small, smart piece of design that most web 3D still skips.</p>
+          <p class="flag">Development is on indefinite hiatus. Nothing is broken; it just isn't moving. Treat it as a finished artefact to study, not an active project to join.</p>
+          <p class="src"><a href="https://github.com/BKcore/HexGL">github.com/BKcore/HexGL</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://phoboslab.org/log/2023/08/rewriting-wipeout">wipEout rewrite</a></h3>
+          <p class="spec"><span class="chip chip-warn">No licence file</span></p>
+          <p class="tech">C &rarr; WASM + WebGL &middot; the 1995 PSX game at modern frame rates</p>
+        </div>
+        <div>
+          <p class="idea">A near-complete reimplementation of the PSX original in portable C, compiled to WASM. Technically the most impressive thing in this list, and the author's write-up on doing it is better reading than most engine books.</p>
+          <p class="flag bad">Two real conditions. The repo carries no assets: you must supply the original PSX NTSC game data plus some PC menu models. And the author states there is no licence, that the code may derive from the 2022 leak, and that you may not use it in any commercial release &mdash; hosting it anywhere showing advertising counts. Study it; don't build a product on it.</p>
+          <p class="src"><a href="https://github.com/phoboslab/wipeout-rewrite">github.com/phoboslab/wipeout-rewrite</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://slowroads.io/">Slow Roads</a></h3>
+          <p class="spec"><span class="chip chip-closed">Closed source</span></p>
+          <p class="tech">Three.js &middot; light for what it renders</p>
+        </div>
+        <div>
+          <p class="idea">Endless procedural road, no objective, no score, barely a menu &mdash; you are driving within seconds of the page loading. Tonally the nearest thing on the open web to the demo you were looking at, and the strongest argument here that removing goals can make a driving game <em>more</em> compelling rather than less.</p>
+          <p class="flag bad">Free and ad-free, but not open source &mdash; included because it answers the brief, not because you can read it. Everything else in this section you can.</p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>A whole system in one tab</h2>
+      <p class="cat-note">Games that trade graphics for depth entirely, which is why they cost almost nothing to run and can hold you for a hundred hours anyway.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://shapez.io/">shapez.io</a></h3>
+          <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
+          <p class="tech">2D canvas &middot; very light for a factory game</p>
+        </div>
+        <div>
+          <p class="idea">Factorio's logistics without the combat, the pollution or the biters &mdash; you cut, rotate, stack and paint shapes to spec on an infinite plane. Stripping the survival layer out turns out to leave the good part intact, which is a genuinely instructive result.</p>
+          <p class="flag">The original repo is no longer actively maintained; the studio moved to shapez 2, a paid Steam title. The browser build stays free and playable, and a Community Edition carries on the open work.</p>
+          <p class="src"><a href="https://github.com/tobspr-games/shapez.io">github.com/tobspr-games/shapez.io</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://pmotschmann.github.io/Evolve/">Evolve</a></h3>
+          <p class="spec"><span class="chip chip-ok">MPL-2.0</span></p>
+          <p class="tech">DOM only &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">Primordial ooze to interstellar empire, and the resets are the point: each run you pick a different species and the tech tree genuinely reshapes around the choice. Far deeper than its plain-HTML presentation suggests, and one of the few incrementals where the mid-game is the best part.</p>
+          <p class="src"><a href="https://github.com/pmotschmann/Evolve">github.com/pmotschmann/Evolve</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://ivark.github.io/">Antimatter Dimensions</a></h3>
+          <p class="spec"><span class="chip chip-warn">No licence stated</span></p>
+          <p class="tech">DOM only &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">The genre's reference text on escalation: every time the numbers stop meaning anything, it introduces a layer that makes them mean something again. Free on the web with no purchase required. Study it for pacing &mdash; few games are this deliberate about when to invalidate their own progress.</p>
+          <p class="flag">Source is published, but I found no licence declared on the repository. Read it; don't assume you may reuse it.</p>
+          <p class="src"><a href="https://github.com/IvarK/AntimatterDimensionsSourceCode">github.com/IvarK/AntimatterDimensionsSourceCode</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>One idea, executed exactly</h2>
+      <p class="cat-note">No systems, no progression, no metagame. A single mechanic that was worth finding, and then nothing else piled on top of it.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.chiark.greenend.org.uk/~sgtatham/puzzles/">Simon Tatham's Puzzle Collection</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">46 puzzles &middot; JS + WASM builds &middot; genuinely tiny</p>
+        </div>
+        <div>
+          <p class="idea">Forty-six distinct logic puzzles &mdash; Loopy, Slant, Bridges, Tracks, Undead &mdash; each with a generator that produces instances solvable by pure deduction at a chosen difficulty, never by guessing. That generator is the real achievement, and the reason this outlived every puzzle app it competed with. Each plays at <span class="mono-in">/puzzles/js/&lt;name&gt;.html</span>.</p>
+          <p class="src"><a href="https://github.com/ghewgill/puzzles">github.com/ghewgill/puzzles</a> (mirror)</p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://hextris.io/">Hextris</a></h3>
+          <p class="spec"><span class="chip chip-ok">GPL-3.0-or-later</span></p>
+          <p class="tech">2D canvas &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">Tetris, except the well is a hexagon you rotate rather than a rectangle you drop into. One geometric substitution, and every intuition you had transfers <em>almost</em> correctly &mdash; which is exactly what makes it hard. The cleanest example here of a good idea being a small one.</p>
+          <p class="src"><a href="https://github.com/Hextris/hextris">github.com/Hextris/hextris</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.slaytheweb.cards/">Slay the Web</a></h3>
+          <p class="spec"><span class="chip chip-ok">AGPL-3.0</span></p>
+          <p class="tech">Web components &middot; very light</p>
+        </div>
+        <div>
+          <p class="idea">Slay the Spire's deckbuilding roguelike loop rebuilt for the browser, with a clean separation between game state and rendering. If you want to see how a card game's rules engine should be structured before writing your own, this is a better teacher than most tutorials.</p>
+          <p class="src"><a href="https://github.com/oskarrough/slaytheweb">github.com/oskarrough/slaytheweb</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Multiplayer, no download</h2>
+      <p class="cat-note">The web's structural advantage: a URL is the entire install. All three run public servers, and all three let you host your own.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://suroi.io/">Suroi</a></h3>
+          <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
+          <p class="tech">TypeScript &middot; Pixi.js &middot; uWebSockets &middot; light client</p>
+        </div>
+        <div>
+          <p class="idea">A 2D battle royale in the surviv.io lineage, rebuilt by volunteers after the original shut down. The most useful reference here if you are writing netcode: a live, readable, self-hostable authoritative server handling real concurrent players.</p>
+          <p class="src"><a href="https://github.com/HasangerGames/suroi">github.com/HasangerGames/suroi</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://hanab.live/">Hanab Live</a></h3>
+          <p class="spec"><span class="chip chip-ok">GPL-3.0</span></p>
+          <p class="tech">Text and card sprites &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">Co-operative Hanabi, where you see everyone's cards except your own and communication is restricted to formal hints. One inverted rule about who knows what generates a genuinely deep convention meta &mdash; the community has written strategy documents longer than most rulebooks. Dozens of variants stack on top.</p>
+          <p class="src"><a href="https://github.com/Hanabi-Live/hanabi-live">github.com/Hanabi-Live/hanabi-live</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://lichess.org/">Lichess</a></h3>
+          <p class="spec"><span class="chip chip-ok">AGPL-3.0-or-later</span></p>
+          <p class="tech">Scala + TypeScript &middot; negligible client</p>
+        </div>
+        <div>
+          <p class="idea">Proof that a free, ad-free, fully open-source service can beat the commercial incumbent on quality. Relevant to you specifically: real-time board sync, clock handling, reconnection and matchmaking are all solved in the open here &mdash; the exact problem set a browser chess project runs into.</p>
+          <p class="src"><a href="https://github.com/lichess-org/lila">github.com/lichess-org/lila</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Thirteen kilobytes, hard limit</h2>
+      <p class="cat-note">js13kGames has run every year since 2012: a complete browser game in 13 KB zipped, no external libraries, no CDN assets. Low compute isn't a claim here, it is enforced by the rules &mdash; and the constraint reliably produces better ideas than a bigger budget would.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://js13kgames.com/entries/q1k3">Q1K3</a></h3>
+          <p class="spec"><span class="chip chip-ok">Source published</span></p>
+          <p class="tech">13 KB zipped &middot; in-browser 3D</p>
+        </div>
+        <div>
+          <p class="idea">A playable Quake-like first-person shooter &mdash; levels, enemies, weapons, sound &mdash; inside 13 kilobytes. The most convincing demonstration on the web that asset size and game quality are unrelated variables.</p>
+          <p class="src"><a href="https://github.com/phoboslab/q1k3">github.com/phoboslab/q1k3</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://js13kgames.com/entries/space-huggers">Space Huggers</a></h3>
+          <p class="spec"><span class="chip chip-ok">Source published</span></p>
+          <p class="tech">13 KB zipped &middot; 2D canvas</p>
+        </div>
+        <div>
+          <p class="idea">Its author's own description is hard to improve on: <em>roguelike Broforce in 13kb</em>. Procedurally generated destructible levels, which is exactly the trick &mdash; generated content is nearly free in bytes and expensive in nothing but cleverness.</p>
+          <p class="src"><a href="https://github.com/KilledByAPixel/SpaceHuggers">github.com/KilledByAPixel/SpaceHuggers</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://js13kgames.com/entries/galaxy-rider">Galaxy Rider</a></h3>
+          <p class="spec"><span class="chip chip-ok">Source published</span></p>
+          <p class="tech">13 KB zipped &middot; 2D physics</p>
+        </div>
+        <div>
+          <p class="idea">Line Rider's descendant: draw the terrain, ride it, solve physics puzzles with the shapes you drew. A physics solver plus a curve editor is a tiny amount of code for an unbounded amount of play.</p>
+          <p class="src"><a href="https://github.com/jaburns/js13k2021">github.com/jaburns/js13k2021</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://medium.com/js13kgames/js13kgames-2025-winners-announced-81bd2a9b5eb3">The 2025 field</a></h3>
+          <p class="spec"><span class="chip chip-ok">Open Source category</span></p>
+          <p class="tech">197 entries &middot; all 13 KB or under</p>
+        </div>
+        <div>
+          <p class="idea">The most recent completed edition. Top of the list: <em>CLAWSTRIKE</em>, <em>Cat Survivors</em>, <em>Witchcat</em>, <em>Triska the Ninja Cat</em>, <em>Catculus</em>, <em>Non-Mewtonian Cat</em>. A large share of every year's field enters the explicit Open Source challenge, so the back catalogue runs to hundreds of readable, complete, tiny games &mdash; the densest vein of good ideas per kilobyte anywhere on this page.</p>
+          <p class="src"><a href="https://js13kgames.com/">js13kgames.com</a> &middot; <a href="https://github.com/js13kGames">github.com/js13kGames</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="steal">
+    <h2>What's actually worth stealing</h2>
+    <p>Patterns that recur across the entries above, framed for someone building a browser game rather than shopping for one.</p>
+    <ul class="lessons">
+      <li>
+        <b>Pick a hard budget before you pick a genre</b>
+        <p>js13k's 13 KB isn't austerity, it is a forcing function &mdash; it rules out asset-driven design on day one and leaves only mechanical ideas standing. Q1K3 is a first-person shooter <em>because</em> the constraint made "generate everything" the only viable plan.</p>
+      </li>
+      <li>
+        <b>Let the interface be the mechanic</b>
+        <p>Untrusted, Bitburner and Elevator Saga all reach for the one thing a browser has that a console doesn't: the player is already sitting in front of a programmable environment. Nothing else on this list is as hard to port elsewhere.</p>
+      </li>
+      <li>
+        <b>Legible rules beat realistic ones</b>
+        <p>Sandspiel gets endless emergent behaviour from about a dozen elements whose rules each fit in a sentence. Players build a mental model of simple rules and then play with the model. They can't do that with an accurate one.</p>
+      </li>
+      <li>
+        <b>Remove a layer instead of adding one</b>
+        <p>shapez.io is Factorio minus combat and survival. Slow Roads is a driving game minus goals. Hextris is Tetris with a hexagon substituted in. Every one of these is subtraction, and every one found the good part faster than an addition would have.</p>
+      </li>
+      <li>
+        <b>Respect the first ten seconds</b>
+        <p>HexGL asks for a quality setting before it loads a track, so a weak GPU never hits a stutter it can't explain. Slow Roads has effectively no menu at all. On the web your competition is the back button, and both of those are answers to it.</p>
+      </li>
+      <li>
+        <b>Check the licence before the screenshots</b>
+        <p>Four entries here look open and aren't quite: Untrusted is non-commercial, Bitburner carries a Commons Clause, Antimatter Dimensions declares nothing, and the wipEout rewrite has no licence at all and asks you to supply data from a leak. Good to learn from, wrong to build on.</p>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="method">
+    <h2>How this was checked</h2>
+    <p>Every licence above was read off the project's own repository or site rather than a directory listing &mdash; which is why several rows carry amber badges that the write-ups elsewhere don't mention. Play URLs were taken from each project's own README or homepage.</p>
+    <p>Two entries were opened and confirmed running during research: <code>hexgl.bkcore.com/play</code> reached its quality-select menu, and <code>sandspiel.club</code> loaded with a live simulation and an on-screen frame counter. The rest are described from source and documentation, not from a play session &mdash; so read the grey weight line as "what this is built from", which is checkable, rather than as a benchmark, which isn't.</p>
+    <p>Antimatter Dimensions is listed with no licence because the repository declares none, not because one was missed. If that changes, the badge is wrong rather than the entry.</p>
+  </footer>
+
+</div>
+</body>
+</html>

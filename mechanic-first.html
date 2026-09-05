@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Where novel game mechanics come from: js13k's Innovation ranking, and 114 PuzzleScript rulesets read from source with the 12 best ranked.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mechanic First">
+<meta property="og:description" content="Where novel game mechanics come from: js13k's Innovation ranking, and 114 PuzzleScript rulesets read from source with the 12 best ranked.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧩</text></svg>">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Mechanic First</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap">
+
+<style>
+:root{
+  --paper:#E9E6DF;
+  --surface:#F3F1EC;
+  --sunk:#DFDBD2;
+  --ink:#1A1D22;
+  --ink-soft:#565B63;
+  --rule:#C9C5BC;
+  --rule-firm:#A9A499;
+  --pink:#C11071;
+  --blue:#0068B0;
+  --ok:#077038;
+  --warn:#8A5600;
+  --closed:#9B2C2C;
+  --ghost:rgba(193,16,113,.20);
+  --chip-ok-bg:rgba(7,112,56,.10);
+  --chip-warn-bg:rgba(138,86,0,.11);
+  --chip-closed-bg:rgba(155,44,44,.10);
+
+  --f-display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#101419;
+    --surface:#171C23;
+    --sunk:#0B0E12;
+    --ink:#E8E6E1;
+    --ink-soft:#9AA1AB;
+    --rule:#2A313A;
+    --rule-firm:#3D4650;
+    --pink:#FF5BB8;
+    --blue:#55AEF0;
+    --ok:#35C07C;
+    --warn:#E0A63A;
+    --closed:#F07070;
+    --ghost:rgba(255,91,184,.26);
+    --chip-ok-bg:rgba(53,192,124,.12);
+    --chip-warn-bg:rgba(224,166,58,.12);
+    --chip-closed-bg:rgba(240,112,112,.12);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101419;
+  --surface:#171C23;
+  --sunk:#0B0E12;
+  --ink:#E8E6E1;
+  --ink-soft:#9AA1AB;
+  --rule:#2A313A;
+  --rule-firm:#3D4650;
+  --pink:#FF5BB8;
+  --blue:#55AEF0;
+  --ok:#35C07C;
+  --warn:#E0A63A;
+  --closed:#F07070;
+  --ghost:rgba(255,91,184,.26);
+  --chip-ok-bg:rgba(53,192,124,.12);
+  --chip-warn-bg:rgba(224,166,58,.12);
+  --chip-closed-bg:rgba(240,112,112,.12);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{color:var(--pink)}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:2px;border-radius:2px}
+
+.page{
+  max-width:60rem;
+  margin:0 auto;
+  padding:clamp(1.75rem,4vw,4rem) clamp(1.1rem,4vw,3rem) 4rem;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(2.5rem,5vw,4rem);
+}
+
+.masthead{display:flex;flex-direction:column;gap:1rem}
+.eyebrow{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--pink);
+  margin:0;
+}
+h1{
+  font-family:var(--f-display);
+  font-weight:800;
+  font-size:clamp(2.5rem,8.5vw,4.75rem);
+  line-height:.94;
+  letter-spacing:-.025em;
+  margin:0;
+  text-wrap:balance;
+  text-shadow:.055em .045em 0 var(--ghost);
+}
+.standfirst{
+  margin:0;
+  max-width:42ch;
+  font-size:1.16rem;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.standfirst strong{color:var(--ink);font-weight:500}
+
+.premise{
+  border-top:2px solid var(--ink);
+  border-bottom:1px solid var(--rule);
+  padding:1.1rem 0;
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+}
+.premise h2{
+  margin:0;
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.premise p{margin:0;font-size:.98rem;line-height:1.6;color:var(--ink-soft);max-width:66ch}
+.premise p strong{color:var(--ink);font-weight:500}
+
+.cat{display:flex;flex-direction:column;gap:1.4rem}
+.cat-head{display:flex;flex-direction:column;gap:.4rem;border-left:3px solid var(--pink);padding-left:.9rem}
+.cat-head h2{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:clamp(1.4rem,3.4vw,1.9rem);
+  letter-spacing:-.015em;
+  line-height:1.1;
+  margin:0;
+  text-wrap:balance;
+}
+.cat-note{margin:0;color:var(--ink-soft);font-size:1rem;max-width:62ch}
+.cat-note strong{color:var(--ink);font-weight:500}
+
+/* ranked year columns */
+.years{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
+  gap:1.6rem 2rem;
+}
+.year{display:flex;flex-direction:column;gap:.7rem}
+.year h3{
+  margin:0;
+  font-family:var(--f-mono);
+  font-size:.74rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--pink);
+  border-bottom:1px solid var(--rule);
+  padding-bottom:.5rem;
+}
+.year ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;counter-reset:r}
+.year li{
+  display:grid;
+  grid-template-columns:1.3rem 1fr;
+  gap:.1rem .6rem;
+  counter-increment:r;
+}
+.year li::before{
+  content:counter(r);
+  grid-row:1/3;
+  font-family:var(--f-mono);
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--ink-soft);
+  padding-top:.15rem;
+  font-variant-numeric:tabular-nums;
+}
+.year .g{font-family:var(--f-display);font-weight:700;font-size:.98rem;line-height:1.25}
+.year .g a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--pink);padding-bottom:1px}
+.year .g a:hover{color:var(--pink)}
+.year .by{
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  color:var(--ink-soft);
+  line-height:1.45;
+  font-variant-numeric:tabular-nums;
+}
+
+/* entry rows */
+.entries{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.entry{
+  display:grid;
+  grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+  gap:.5rem 2rem;
+  padding:1.15rem 0;
+  border-top:1px solid var(--rule);
+}
+.entry:last-child{border-bottom:1px solid var(--rule)}
+.entry h3{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:1.1rem;
+  letter-spacing:-.01em;
+  margin:0 0 .45rem;
+  line-height:1.25;
+}
+.entry h3 a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--pink);padding-bottom:1px}
+.entry h3 a:hover{color:var(--pink)}
+.spec{margin:0;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.chip{
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:.2rem .42rem;
+  border-radius:2px;
+}
+.chip-ok{color:var(--ok);background:var(--chip-ok-bg);border:1px solid var(--ok)}
+.chip-warn{color:var(--warn);background:var(--chip-warn-bg);border:1px solid var(--warn)}
+.chip-closed{color:var(--closed);background:var(--chip-closed-bg);border:1px solid var(--closed)}
+.tech{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  color:var(--ink-soft);
+  margin:.45rem 0 0;
+  line-height:1.45;
+}
+.idea{margin:0}
+.idea em{font-style:italic;color:var(--ink)}
+.mono-in{font-family:var(--f-mono);font-size:.85em}
+.flag{
+  margin:.5rem 0 0;
+  font-family:var(--f-mono);
+  font-size:.75rem;
+  line-height:1.55;
+  color:var(--warn);
+  border-left:2px solid var(--warn);
+  padding-left:.6rem;
+}
+.flag.bad{color:var(--closed);border-left-color:var(--closed)}
+.src{margin:.5rem 0 0;font-family:var(--f-mono);font-size:.74rem}
+.src a{color:var(--ink-soft)}
+.src a:hover{color:var(--pink)}
+
+/* rule-named list */
+.rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.rules li{
+  display:grid;
+  grid-template-columns:minmax(0,17rem) minmax(0,1fr);
+  gap:.3rem 2rem;
+  padding:.85rem 0;
+  border-top:1px solid var(--rule);
+  align-items:baseline;
+}
+.rules li:last-child{border-bottom:1px solid var(--rule)}
+.rules .t{font-family:var(--f-display);font-weight:700;font-size:1rem;line-height:1.25}
+.rules .t a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--pink);padding-bottom:1px}
+.rules .t a:hover{color:var(--pink)}
+.rules .n{margin:0;font-size:.97rem;color:var(--ink-soft);line-height:1.5}
+.rules .n em{font-style:italic;color:var(--ink)}
+
+.steal{
+  background:var(--surface);
+  border:1px solid var(--rule-firm);
+  padding:clamp(1.4rem,3.5vw,2.2rem);
+  display:flex;
+  flex-direction:column;
+  gap:1.3rem;
+}
+.steal h2{
+  font-family:var(--f-display);
+  font-weight:800;
+  font-size:clamp(1.5rem,4vw,2.1rem);
+  letter-spacing:-.02em;
+  margin:0;
+  line-height:1.05;
+}
+.steal > p{margin:0;color:var(--ink-soft);max-width:62ch}
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.05rem}
+.lessons li{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr);gap:.35rem 1.6rem;padding-top:1.05rem;border-top:1px solid var(--rule)}
+.lessons b{font-family:var(--f-display);font-weight:700;font-size:.98rem;line-height:1.3;color:var(--pink)}
+.lessons p{margin:0;font-size:.99rem;line-height:1.55}
+
+.method{
+  border-top:2px solid var(--ink);
+  padding-top:1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+}
+.method h2{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0;
+}
+.method p{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink-soft);max-width:68ch}
+.method code{font-family:var(--f-mono);font-size:.82em;background:var(--sunk);padding:.08em .3em;border-radius:2px;color:var(--ink)}
+
+/* ruleset ranking */
+.rank{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;counter-reset:k}
+.rank li{
+  counter-increment:k;
+  display:grid;
+  grid-template-columns:2.2rem minmax(0,1fr);
+  gap:.45rem 1rem;
+  padding:1.15rem 0;
+  border-top:1px solid var(--rule);
+}
+.rank li:last-child{border-bottom:1px solid var(--rule)}
+.rank li::before{
+  content:counter(k);
+  grid-row:1/4;
+  font-family:var(--f-mono);
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--pink);
+  line-height:1;
+  padding-top:.1rem;
+  font-variant-numeric:tabular-nums;
+}
+.rk-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:.25rem .7rem}
+.rk-t{font-family:var(--f-display);font-weight:700;font-size:1.08rem;letter-spacing:-.01em;line-height:1.25}
+.rk-t a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--pink);padding-bottom:1px}
+.rk-t a:hover{color:var(--pink)}
+.rk-a{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-soft);white-space:nowrap}
+.rk-r{
+  background:var(--sunk);
+  border-left:2px solid var(--blue);
+  padding:.5rem .7rem;
+  overflow-x:auto;
+}
+.rk-r code{font-family:var(--f-mono);font-size:.72rem;line-height:1.7;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.rk-d{margin:0;font-size:.99rem;line-height:1.55}
+.rk-d code{font-family:var(--f-mono);font-size:.85em;background:var(--sunk);padding:.05em .25em;border-radius:2px}
+
+@media (max-width:44rem){
+  .entry,.lessons li,.rules li{grid-template-columns:1fr;gap:.4rem}
+  .rank li{grid-template-columns:1.7rem minmax(0,1fr);gap:.4rem .7rem}
+  h1{text-shadow:.045em .04em 0 var(--ghost)}
+}
+
+.sitenav{max-width:60rem;margin:0 auto;padding:1.1rem clamp(1.1rem,4vw,3rem) 0;display:flex;flex-wrap:wrap;gap:.35rem 1.3rem;align-items:baseline;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase}
+.sitenav a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+.sitenav a:hover{color:var(--pink);border-bottom-color:var(--pink)}
+.sitenav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--pink)}
+.sitenav .home{font-weight:700;color:var(--pink)}
+.sitenav .sep{color:var(--rule-firm)}
+</style>
+</head>
+<body>
+<nav class="sitenav"><a class="home" href="./">Games You Can Read</a><span class="sep">/</span><a href="arcade.html">Source Available Arcade</a><a href="mechanic-first.html" aria-current="page">Mechanic First</a></nav>
+
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Companion to Source Available Arcade &middot; 6 September 2026</p>
+    <h1>Mechanic First</h1>
+    <p class="standfirst">More of what you liked about the js13k entries: games where the <strong>idea is the whole product</strong>. Sorted by where the constraint comes from, because that turns out to be what produces them.</p>
+
+    <div class="premise">
+      <h2>The useful discovery</h2>
+      <p>js13k doesn't just publish overall winners &mdash; it publishes a <strong>separate ranking for Innovation</strong>, voted by the entrants themselves. That is a far better filter for "genuinely unique mechanic" than the overall top-13, whose write-ups mostly praise pixel art and sound design. Three years of that ranking make up the first section below.</p>
+      <p>Worth saying plainly once: these are <strong>judged scores, not measurements</strong>. A peer vote for Innovation says a room of game developers found something surprising, which is useful and is not the same as fact. Where this page does rank things itself &mdash; the PuzzleScript section &mdash; it ranks from the rulesets, which are readable, rather than from vibes.</p>
+    </div>
+  </header>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>js13k, ranked by Innovation</h2>
+      <p class="cat-note">The top five in the Innovation criterion for each of the last three completed competitions, with the score each received. Every game plays in a browser, every one is 13 KB or smaller, and every entry page carries a link to its source.</p>
+    </div>
+
+    <div class="years">
+
+      <div class="year">
+        <h3>2025 &middot; 197 entries</h3>
+        <ol>
+          <li><span class="g"><a href="https://js13kgames.com/2025/games/wash-the-cat">Wash the cat</a></span><span class="by">Homer Dilpleu &middot; 4.03</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2025/games/i-got-up-on-the-wrong-foot">I got up on the wrong foot</a></span><span class="by">xem &middot; 3.94</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2025/games/black-cat-detective-agency">Black Cat Detective Agency</a></span><span class="by">Sarah Hubschman &middot; 3.90</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2025/games/kuro-neko-market">Kuro Neko Market</a></span><span class="by">Federico Tibaldo &middot; 3.85</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2025/games/triska-the-ninja-cat">Triska the Ninja Cat</a></span><span class="by">John Edvard &middot; 3.84</span></li>
+        </ol>
+      </div>
+
+      <div class="year">
+        <h3>2024 &middot; 187 entries</h3>
+        <ol>
+          <li><span class="g"><a href="https://js13kgames.com/2024/games/bubble-burst">Bubble Burst</a></span><span class="by">John Edvard &middot; 4.47</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2024/games/coup-ahoo">Coup Ahoo</a></span><span class="by">Antti Haavikko &middot; 4.04</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2024/games/picobuddy">PicoBuddy</a></span><span class="by">Benjamin Boyd Austin &middot; 4.03</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2024/games/do-not-make-13">Do Not Make 13</a></span><span class="by">Pim Schreurs &middot; 4.00</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2024/games/13th-floor">13th Floor</a></span><span class="by">Rob Louie &middot; 3.87</span></li>
+        </ol>
+      </div>
+
+      <div class="year">
+        <h3>2023 &middot; 13th edition</h3>
+        <ol>
+          <li><span class="g"><a href="https://js13kgames.com/2023/games/runekeeper">Runekeeper</a></span><span class="by">score not published</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2023/games/k1n3kt-archery">K1n3kt Archery</a></span><span class="by">score not published</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/entries/merlin-vs-alfonso">Merlin vs Alfonso</a></span><span class="by">score not published</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2023/games/mongol-march">Mongol March</a></span><span class="by">score not published</span></li>
+          <li><span class="g"><a href="https://js13kgames.com/2023/games/young-magi-awaken">Young Magi, Awaken</a></span><span class="by">score not published</span></li>
+        </ol>
+      </div>
+
+    </div>
+
+    <ul class="entries">
+      <li class="entry">
+        <div>
+          <h3>Two more, described</h3>
+          <p class="spec"><span class="chip chip-warn">Not Innovation-ranked</span></p>
+          <p class="tech">from the official write-ups</p>
+        </div>
+        <div>
+          <p class="idea">The Innovation lists above are rankings, not reviews &mdash; I'm passing on the field's own verdict rather than describing games I haven't played. Two entries elsewhere in the results <em>do</em> come with a published description of the mechanic, and both are worth the click: <a href="https://js13kgames.com/2023/games/tiny-yurts">Tiny Yurts</a>, called a "perfect version of mini motorways" with curvy line merging, and <a href="https://js13kgames.com/entries/feast-night">FEAST NIGHT</a>, where you interact entirely through nods and shakes.</p>
+          <p class="src"><a href="https://dev.to/js13kgames/js13kgames-2025-criteria-rankings-3ao0">2025 rankings</a> &middot; <a href="https://dev.to/js13kgames/criteria-rankings-in-js13kgames-2024-3ac2">2024 rankings</a> &middot; <a href="https://medium.com/js13kgames/criteria-rankings-and-expert-top-picks-ed2d7a657387">2023 rankings</a></p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>PuzzleScript, where the rules are the game</h2>
+      <p class="cat-note">Stephen "increpare" Lavelle's engine. You write a handful of rewrite rules over a tile grid &mdash; <span class="mono-in">[ &gt; Player | Crate ] -&gt; [ &gt; Player | &gt; Crate ]</span> is Sokoban, entire &mdash; and that is the game. <strong>The source travels in the URL</strong>: any game's rules open in the editor in a few dozen readable lines. Nothing else on either of these pages puts a novel mechanic this close to the surface.</p>
+    </div>
+    <ul class="entries">
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.puzzlescript.net/">PuzzleScript</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">HTML5 &middot; 5&times;5 sprites &middot; negligible</p>
+        </div>
+        <div>
+          <p class="idea">Write, play, and share entirely in the browser. Because a game is just its ruleset, the whole engine is a machine for testing "what if this one verb worked differently" &mdash; which is exactly the question a unique mechanic is the answer to.</p>
+          <p class="src"><a href="https://github.com/increpare/PuzzleScript">github.com/increpare/PuzzleScript</a> &middot; <a href="https://github.com/lee2sman/awesome-puzzlescript">awesome-puzzlescript</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div>
+          <h3><a href="https://github.com/Auroriax/PuzzleScriptPlus">PuzzleScript Plus</a></h3>
+          <p class="spec"><span class="chip chip-ok">Fork</span></p>
+          <p class="tech">adds mouse, solver, level select, custom sprite sizes</p>
+        </div>
+        <div>
+          <p class="idea">Auroriax's fork gathers the useful community modifications into one editor. The built-in <em>solver</em> is the interesting part if you're designing rather than playing: it will tell you whether a level you just invented is actually solvable.</p>
+          <p class="src">Sibling fork <em>DungleScript</em> renders the same rules as 3D voxels.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="cat-note" style="margin-top:.4rem">I pulled the rulesets for all <strong>114 games in the PuzzleScript gallery</strong> from their gists and read the RULES section of each. Below are the twelve whose rules buy the most play, <strong>ranked by how much they change about Sokoban per rule spent</strong> &mdash; rule count shown, and the rule that does the work quoted where it is short enough to read.</p>
+
+  <ol class="rank">
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=efe47d5471e9ef533a664a66c31eb66d">Sokoban[Sokoban[Sokoban]]</a></span><span class="rk-a">increpare &middot; 3 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Player | stationary Crate | no obstacle ] [stationary player2] -&gt; [ | Player | Crate ] [&gt; player2]</code></div>
+      <p class="rk-d">Not spatial recursion &mdash; <em>nested move functions</em>. Succeeding at a push on the first board is what supplies the input to the second board, and a push there supplies the third. You are not playing three Sokobans; you are playing one whose controller is another one. Three rules, and the second and third are the same rule shifted down a level.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=fd4e3445b63068676f72">Collapsable Sokoban</a></span><span class="rk-a">Franklin P. Dyer &middot; 2 rules</span></div>
+      <div class="rk-r"><code>[Wall|...|Player] -&gt; [&gt; Wall|...|Player]</code></div>
+      <p class="rk-d">Standard Sokoban, plus that. Every wall in line with you advances one square toward you, every turn. The room closes as you solve it, so position stops being free and every move spends space you cannot get back. The best ratio in the gallery: one added line, a completely different game.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6888061">Modality</a></span><span class="rk-a">Sean Barrett &middot; 4 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Player Black | Crate Black ] -&gt; [ &gt; Player Black | &gt; Crate Black ]<br>[ &gt; Player White | Black ] -&gt; CANCEL</code></div>
+      <p class="rk-d">You have a colour. You can push only crates of your own colour, and you cannot step onto the opposite colour at all. Two constraints written as two cancellations, and the board splits into a pair of interleaved mazes you have to solve alternately.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6860122">Heroes of Sokoban</a></span><span class="rk-a">Jonah Ostroff &middot; 22 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Fighter | Moveable ] -&gt; [ &gt; Fighter | &gt; Moveable ]<br>[ &lt; Thief | Moveable ] -&gt; [ &lt; Thief | &lt; Moveable ]<br>[ &gt; Wizard ] -&gt; [ Wizard &gt; Temp ]</code></div>
+      <p class="rk-d">Three verbs on one grid, and you switch between them. The Fighter <em>pushes</em>, and shoves whole chains. The Thief <em>pulls</em> &mdash; moving away drags the block after her. The Wizard <em>swaps</em> places with whatever it faces. The most rules on this list and it earns them: the only entry whose difficulty comes from verbs interacting rather than from one twist, and the only one that spawned two sequels.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=0e692c47ab0b18099c2485d644590b4e">Watch Your Step</a></span><span class="rk-a">Aaron Steed &middot; 11 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Crate0 | Crate0 ] -&gt; [ | Crate1 ]<br>late [Floor4 no Object] -&gt; [no Floor Crate0]</code></div>
+      <p class="rk-d">Two ideas stacked, which makes it the densest thing here. Crates merge on collision the way 2048 tiles do &mdash; 0 into 0 makes 1, up to 4, and reaching a 4 wins. Meanwhile the floor <em>ages under your feet</em>, and floor that has aged four steps sprouts a fresh crate. The board you cross is the board that refills behind you.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6846450">Love and Pieces</a></span><span class="rk-a">lexaloffle &middot; 2 rules</span></div>
+      <div class="rk-r"><code>late [ Player | GrayBlock ] -&gt; [ Player | Player ]</code></div>
+      <p class="rk-d">Anything grey you touch <em>becomes you</em>, and the win condition is that no grey is left. So the puzzle is spreading, every copy takes your input at once, and succeeding makes you progressively harder to steer. Written by Joseph White, who went on to build PICO-8.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=45f13378f02acf2d2583d91fac32e729">the art of cloning</a></span><span class="rk-a">Rosden Shadow &middot; 6 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Player | Crate ] -&gt; [ player | &gt; Crate ]</code></div>
+      <p class="rk-d">Look closely at the right-hand side: the <code>&gt;</code> in front of <em>Player</em> is gone. You push the crate and you stay exactly where you are. Sokoban's core assumption is that pushing costs you your position &mdash; delete it and every solution you know stops working.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=33eee323d8edfbdc20ee2d584cee2b4b">Some lines were meant to be crossed</a></span><span class="rk-a">Frpzzd &middot; 7 rules</span></div>
+      <div class="rk-r"><code>LATE [player no start] -&gt; [player tail]<br>[&gt; player|tail] -&gt; cancel</code></div>
+      <p class="rk-d">Your own trail hardens into wall behind you, and you win by clearing every path <em>and</em> returning to where you started. A Hamiltonian circuit expressed in two rules, with the elegant consequence that the puzzle tightens in exact proportion to how much of it you have solved.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=21e3784aaa7675dc4b08">Stairways</a></span><span class="rk-a">Franklin P. Dyer &middot; 6 rules</span></div>
+      <div class="rk-r"><code>[&gt; Player|Block No Stairs] -&gt; [&gt; Player|&gt; Block No Stairs]<br>[&gt; Player|Block Stairs] -&gt; [Player|&gt; Block Stairs]</code></div>
+      <p class="rk-d">The same push, conditioned on the tile it happens on: everywhere else you travel with the block, on stairs you stay behind. One rule written twice with a single term changed &mdash; the tidiest demonstration in the gallery of how PuzzleScript wants you to think.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6879013">Ebony &amp; Ivory</a></span><span class="rk-a">Guilherme T&ouml;ws &middot; 9 rules</span></div>
+      <div class="rk-r"><code>[ &gt; Black | White ] -&gt; [ White | Black ]</code></div>
+      <p class="rk-d">Pushing something into its opposite does not move it &mdash; the two <em>trade places</em>. Displacement stops being transport and becomes exchange, so the board's contents are conserved and you are only ever rearranging what is already there.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=7718522">MazezaM</a></span><span class="rk-a">Malcolm Tyrrell &middot; 8 rules</span></div>
+      <div class="rk-r"><code>Horizontal [ &gt; Player | Crate | ... | No Object | WallLike ] -&gt; [ &gt; Player | &gt; Crate | ... | | WallLike ]</code></div>
+      <p class="rk-d">Moving sideways shoves an entire row along until it finds a gap. You are not pushing a block, you are operating a row &mdash; so a level reads less as a maze than as a bank of sliding registers you have to align.</p>
+    </li>
+
+    <li>
+      <div class="rk-h"><span class="rk-t"><a href="https://www.puzzlescript.net/play.html?p=6841210">Lime Rick</a></span><span class="rk-a">Tommi Tuovinen &middot; 11 rules</span></div>
+      <div class="rk-r"><code>UP [ UP PlayerHead3 | No Obstacle ] -&gt; [ PlayerBodyV | PlayerHead4 ]</code></div>
+      <p class="rk-d">A snake that climbs. Your body is a fixed stack of segments, and moving up spends one &mdash; so the creature's own length is the resource, and the level is a question about how much of yourself you can afford to leave behind on the way.</p>
+    </li>
+
+  </ol>
+
+  <p class="cat-note" style="margin-top:1rem"><strong>The degenerate case, outside the ranking.</strong> <a href="https://www.puzzlescript.net/play.html?p=09b30f559f01393008af">the undertaking</a> by anna anthropy has the shortest ruleset in the gallery at <em>one rule</em> &mdash; <span class="mono-in">[ Autoplayer ] -&gt; [ Player Exit ]</span>, against a win condition of "all Player on Exit". The game wins itself. It is a conceptual piece rather than a mechanic, and it belongs here as the floor of the scale rather than the top of it.</p>
+
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Hardware as the constraint</h2>
+      <p class="cat-note">Fantasy consoles invent a machine that never existed, then hold you to its spec. Same forcing function as 13 KB, applied to pixels and channels instead of bytes.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://tic80.com/play">TIC-80</a></h3>
+          <p class="spec"><span class="chip chip-ok">MIT</span></p>
+          <p class="tech">240&times;136 &middot; 16 colours &middot; 256 8&times;8 sprites &middot; 4 sound channels</p>
+        </div>
+        <div>
+          <p class="idea">The open one. Code, sprite, map, sound and music editors are all built into the console itself, games ship as single cartridge files, and the community catalogue plays in the browser with nothing installed. It accepts nine languages &mdash; Lua, JavaScript, Python, Ruby, Wren, Fennel, Squirrel, Janet and Moonscript &mdash; which makes it an unusually low-friction place to prototype a mechanic.</p>
+          <p class="src"><a href="https://github.com/nesbox/TIC-80">github.com/nesbox/TIC-80</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.lexaloffle.com/bbs/?cat=7">PICO-8 carts</a></h3>
+          <p class="spec"><span class="chip chip-closed">Console is paid &amp; closed</span></p>
+          <p class="tech">128&times;128 &middot; 16 colours &middot; carts export to HTML</p>
+        </div>
+        <div>
+          <p class="idea">The larger and more famous cartridge scene, and worth browsing even though the tool isn't free. Carts play in the browser at no cost and their source is viewable in the console, so it works as a reading library either way.</p>
+          <p class="flag bad">Listed for completeness, not as an open-source recommendation &mdash; PICO-8 itself is a paid, closed product. TIC-80 is the one you can fork.</p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Byte limits past the point of reason</h2>
+      <p class="cat-note">Where 13 KB starts to look generous. Neither of these is really a games competition, but both are where the tricks that make 13 KB games possible were worked out.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://js1k.com/">JS1k</a></h3>
+          <p class="spec"><span class="chip chip-warn">Archive &mdash; ran 2010&ndash;2019</span></p>
+          <p class="tech">1024 bytes of self-contained JavaScript</p>
+        </div>
+        <div>
+          <p class="idea">Started as a joke in 2010 and became a serious annual competition before winding down. A thirteenth of a js13k budget, and it still produced playable games &mdash; a full colour Tetris in 1024 bytes among them. The demo archives are still up and each entry's source is right there, because at that size the source <em>is</em> the entry.</p>
+          <p class="src"><a href="https://js1k.com/2010-first/demos">js1k.com/2010-first/demos</a> &middot; the successor runs as js1024</p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://www.dwitter.net/h/game/top">Dwitter</a></h3>
+          <p class="spec"><span class="chip chip-ok">Live</span></p>
+          <p class="tech">140 characters &middot; one canvas &middot; a function of time</p>
+        </div>
+        <div>
+          <p class="idea">You get a function <span class="mono-in">u(t)</span>, a canvas, and 140 characters. Everything is remixable in place, so a good trick spreads and mutates through the site within hours. The <span class="mono-in">#game</span> tag is where people have squeezed something interactive into that budget &mdash; less a place to find games to play than the clearest available demonstration that mechanics cost almost nothing and content costs everything.</p>
+          <p class="src"><a href="https://www.dwitter.net/">dwitter.net</a></p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cat">
+    <div class="cat-head">
+      <h2>Jams that require the source</h2>
+      <p class="cat-note">Not size limits but time limits, and crucially a rule that the code ships too &mdash; which is what makes them useful rather than merely fun to browse.</p>
+    </div>
+    <ul class="entries">
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://ldjam.com/events/ludum-dare/rules">Ludum Dare Compo</a></h3>
+          <p class="spec"><span class="chip chip-ok">Source required</span></p>
+          <p class="tech">48 hours &middot; one person &middot; everything from scratch</p>
+        </div>
+        <div>
+          <p class="idea">The Compo is the strict half: solo, 48 hours, all assets made during the event, and <em>source code must be included in the submission</em> &mdash; for the Jam track too. Two decades of themed archives, and because the clock forbids scope, entries live or die on a single idea. Filter to web builds and you have a near-endless supply of exactly what you asked for.</p>
+          <p class="src"><a href="https://ldjam.com/">ldjam.com</a> &middot; <a href="https://github.com/topics/ludum-dare">github.com/topics/ludum-dare</a></p>
+        </div>
+      </li>
+
+      <li class="entry">
+        <div>
+          <h3><a href="https://itch.io/jam/7drl-challenge-2025">7DRL Challenge</a></h3>
+          <p class="spec"><span class="chip chip-warn">Source not mandatory</span></p>
+          <p class="tech">seven days &middot; one complete roguelike</p>
+        </div>
+        <div>
+          <p class="idea">Build a finished roguelike in a week. The genre's whole tradition is that a run is generated from rules rather than authored, so a seven-day budget pushes entrants straight at the mechanic &mdash; and the community norm of writing up what you tried means the reasoning is usually published even when the code isn't.</p>
+          <p class="flag">Unlike Ludum Dare Compo, releasing source is a convention here rather than a rule. Check per entry.</p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="steal">
+    <h2>How to actually mine these</h2>
+    <p>All five sections above are archives rather than lists, so the useful skill is knowing where the mechanic is written down.</p>
+    <ul class="lessons">
+      <li>
+        <b>Read a PuzzleScript game in ninety seconds</b>
+        <p>Every game is a gist id in its play URL. Swap <span class="mono-in">play.html?p=</span> for the editor and the entire ruleset is in front of you &mdash; usually under a hundred lines, with the novel idea sitting in two or three of them. There is no faster way to see how a mechanic is actually specified.</p>
+      </li>
+      <li>
+        <b>Sort js13k by criterion, never by overall</b>
+        <p>Overall rank rewards balance, so it surfaces polished games. The Innovation column surfaces strange ones. The community results viewer lets you sort the full field by any single criterion rather than just the published top five.</p>
+      </li>
+      <li>
+        <b>Take the constraint before the theme</b>
+        <p>Every source here works the same way: fix a budget that rules out content, and the only remaining lever is the rules. 13 KB, 1024 bytes, 140 characters, 240&times;136 pixels, 48 hours. The theme is what these jams announce; the budget is what actually shapes the entries.</p>
+      </li>
+      <li>
+        <b>Judge the ranking, not just the rank</b>
+        <p>An Innovation score is a room of developers agreeing something surprised them. It is a good pointer and a bad proof &mdash; note that 2024's top Innovation score was 4.47 and 2025's was 4.03, which says more about how each year's field voted than about the games.</p>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="method">
+    <h2>How this was checked</h2>
+    <p>The Innovation rankings come from js13kGames' own criteria-rankings posts for 2023, 2024 and 2025, read directly. The 2023 post lists ranks without numeric scores, so none are shown for that year rather than being carried over from elsewhere.</p>
+    <p>All fifteen ranked game links were opened and confirmed to resolve to the right entry page. The PuzzleScript links were taken from increpare's own catalogue page, and each is a <code>puzzlescript.net/play.html?p=</code> gist id.</p>
+    <p>The PuzzleScript ranking is built from source, not from titles: I fetched the gist behind all 114 games in the official gallery and read each RULES section, then ranked on how much each ruleset changes about Sokoban per rule spent. Rule counts are counted from those files. Three of the 114 stored their script in a form my parser could not read and were left out.</p>
+    <p>That is still a reading, not a playthrough &mdash; of the games ranked here I have only loaded <em>Snortal</em> in a browser. Quoted rules are verbatim from the gists, so you can check any claim against the editor in one click. The js13k Innovation entries carry no mechanic description at all, deliberately: there I have the field&rsquo;s ranking, not a session with each game.</p>
+    <p>TIC-80's licence and hardware spec are from its repository. PICO-8 is flagged closed because it is a paid product; only its exported cartridges are free to play.</p>
+  </footer>
+
+</div>
+</body>
+</html>
